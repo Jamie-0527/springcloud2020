@@ -32,4 +32,16 @@ public class PaymentController {
         log.info("***********result:"+result);
         return result;
     }
+
+    /**
+     * 多次错误,然后慢慢正确，发现刚开始不满足条件，就算是正确的访问地址也不能进行访问，需要慢慢的恢复链路,涉及到失败率的百分比
+     * @param id
+     * @return
+     */
+    @GetMapping("/payment/circuit/{id}")
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id){
+        String result = paymentService.paymentCircuitBreaker(id);
+        log.info("***********result:"+result);
+        return result;
+    }
 }
