@@ -45,3 +45,19 @@ consumer-feign-hystrix-order80和provider-hystrix-payment8001
 consumer-hystrix-dashboard9001
 
 先访问正确地址，再访问错误地址，再正确地址，会发现断路器都是慢慢放开的
+
+### 服务配置中心Config
+实现了客户端3355访问SpringCloud Config3344通过GitHub获取配置信息
+
+config-center-3344 ==>服务器端
+
+config-client-3355 ==>客户端
+
+#### 实现分布式配置的动态刷新
+1、修改bootstrap.yml文件，打开服务监控
+
+2、在业务类Controller上加上@RefreshScope注解
+
+3、打开cmd，[用curl工具向](http://localhost:3355/actuator/refresh) 发送post请求
+
+命令如下：curl -X POST "http://localhost:3355/actuator/refresh"
