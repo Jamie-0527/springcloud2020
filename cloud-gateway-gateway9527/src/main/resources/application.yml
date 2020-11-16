@@ -1,0 +1,46 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+  #以配置文件的形式来实现Gateway路由器
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true   #开启从注册中心动态创建路由功能，利用微服务名进行路由
+      routes:
+        - id: payment_routh #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          #uri: http://localhost:8001   #匹配后提供服务的路由地址
+          uri: lb://cloud-payment-service   #匹配后提供服务的路由地址
+          predicates:
+            - Path=/payment/get/**   #断言,路径相匹配的进行路由
+
+            #设置时区和时间，在此时间之前访问不了，以下的Between和Before同理
+            #- After=2020-11-15T22:09:18.356+08:00[Asia/Shanghai]
+            #- Between=2020-11-15T22:09:18.356+08:00[Asia/Shanghai],2020-11-15T23:09:18.356+08:00[Asia/Shanghai]
+            #- Before=2020-11-15T22:09:18.356+08:00[Asia/Shanghai]
+
+            #设置必须携带cookie，默认是不携带
+            #- Cookie=username,Jamie
+
+            #设置携带请求头，请求头要有x-Request-Id属性并且值为整数的正则表达式
+            #- Header=x-Request-Id,\d+
+
+
+        - id: payment_routh2 #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          #uri: http://localhost:8001   #匹配后提供服务的路由地址
+          uri: lb://cloud-payment-service   #匹配后提供服务的路由地址
+          predicates:
+            - Path=/payment/lb/**   #断言,路径相匹配的进行路由
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    service-url:
+        register-with-eureka: true
+        fetch-registry: true
+        defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/    #集群版
+
