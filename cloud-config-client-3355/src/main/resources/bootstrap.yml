@@ -13,6 +13,12 @@ spring:
       name: config    #配置文件名称
       profile: dev    #读取配置文件后缀名称
       uri: http://localhost:3344    #配置中心地址块
+  #rabbitmq相关配置 15672是web管理界面的端口；5672是MQ的访问端口
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   client:
