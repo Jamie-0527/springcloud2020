@@ -61,3 +61,22 @@ config-client-3355 ==>客户端
 3、打开cmd，[用curl工具向](http://localhost:3355/actuator/refresh) 发送post请求
 
 命令如下：curl -X POST "http://localhost:3355/actuator/refresh"
+
+### SpringCloud Stream消息驱动
+stream-rabbitmq-provider8801 ==> 服务消息生产者
+
+stream-rabbitmq-consumer8802 ==> 服务消息消费者（接收者）
+
+stream-rabbitmq-consumer8803 ==> 服务消息消费者（接收者）
+
+```
+当两个消费者都启动时，生产者发送的消息会被重复消费；由于在RabbitMQ的配置当中没有进行分组，它将两个服务器自动分组；
+当我们在application.yml文件中加入不同的分组时会得到相同的效果；
+当我们将两个消费者分到同一个组的时候，生产者所发送的消息只能被消费一次，两个消费者平摊生产者发出的消息
+
+
+不设置消息分组有可能错过接收消息
+
+当我将8802消费者不设置分组，8803消费者设置分组时，（这两个消费者服务器处于关闭状态）8801生产者向它们发送消息，
+此时再启动两个消费者，会看到8802无法接收到消息，8803会将错过的消息再次消费掉。
+```
