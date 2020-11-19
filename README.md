@@ -80,3 +80,88 @@ stream-rabbitmq-consumer8803 ==> 服务消息消费者（接收者）
 当我将8802消费者不设置分组，8803消费者设置分组时，（这两个消费者服务器处于关闭状态）8801生产者向它们发送消息，
 此时再启动两个消费者，会看到8802无法接收到消息，8803会将错过的消息再次消费掉。
 ```
+
+## Nacos
+
+###Nacos作为服务注册中心模拟
+1、在github上面下载[Nacos](https://github.com/alibaba/nacos/tags)
+
+2、解压在cmd当中运行Nacos包中的startup.cmd
+
+3、cloudalibaba-provider-payment9001 ==> 服务器9001
+
+4、cloudalibaba-provider-payment9002 ==> 服务器9002
+
+pom.xml引入新的依赖
+```xml
+<!--引入NacosDiscovery服务注册-->
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+</dependency>
+```
+
+application.yaml如下：
+```yaml
+server:
+  port: 9001
+
+spring:
+  application:
+    name: nacos-payment-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+```
+
+### Nacos实现服务负载均衡
+cloudalibaba-consumer-nacos-order83 ==> 客户端（消费者）
+
+Nacos默认继承了Hystrix的东西
+
+### Nacos作为服务配置中心
+cloudalibaba-config-nacos-client3377
+
+引入新的依赖
+```xml
+<!--引入NacosDiscovery服务配置中心-->
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+</dependency>
+```
+
+进行配置文件是要严格按照官方文档来写
+
+我的bootstrap.yml文件
+```yaml
+server:
+  port: 3377
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #Nacos服务注册中心地址
+      config:
+        server-addr: localhost:8848 #Nacos作为配置中心地址
+        file-extension: yaml #指定yamL格式的配置
+```
+我的application.yml文件
+```yaml
+spring:
+  profiles:
+      active: dev #表示开发环境
+```
+公式为：# ${spring.application.name}-${spring.profile.active}. ${spring.cLoud.nacos.config.file-extension }
+
+[详细参照Nacos手册](https://nacos.io/en-us/docs/quick-start-spring-cloud.html)
+
