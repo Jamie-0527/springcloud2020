@@ -1,6 +1,5 @@
 package com.min.springcloud.service;
 
-import org.springframework.web.bind.annotation.PathVariable;
 
 public interface PaymentService {
 
