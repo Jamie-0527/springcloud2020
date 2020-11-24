@@ -1,4 +1,4 @@
-package com.min.soringcloud.handler;
+package com.min.springcloud.handler;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.min.springcloud.entities.CommonResult;

@@ -1,8 +1,8 @@
-package com.min.soringcloud.controller;
+package com.min.springcloud.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.min.soringcloud.handler.Myhandler;
+import com.min.springcloud.handler.Myhandler;
 import com.min.springcloud.entities.CommonResult;
 import com.min.springcloud.entities.Payment;
 import lombok.extern.slf4j.Slf4j;
