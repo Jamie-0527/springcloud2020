@@ -165,3 +165,19 @@ spring:
 
 [详细参照Nacos手册](https://nacos.io/en-us/docs/quick-start-spring-cloud.html)
 
+### Sentinel的服务降级规则
+sentinel-service8401
+
+在[官网下载](https://github.com/alibaba/Sentinel/releases) sentinel-dashboard的jar包
+
+在8080端口不被占用的情况下，通过java -jar 命令来启动sentinel服务，打开http://localhost:8080 账号和密码都是sentinel
+
+### Seata-Server服务模拟
+order-service2001=====>订单服务器
+
+storage-service2002====>仓库服务器
+
+account-service2003=====>账户服务器
+
+详细操作参考[官方文档](http://seata.io/zh-cn/docs/overview/terminology.html)
+
