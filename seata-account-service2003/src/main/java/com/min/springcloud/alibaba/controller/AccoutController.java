@@ -1,5 +1,6 @@
 package com.min.springcloud.alibaba.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.min.springcloud.alibaba.domain.CommonResult;
 import com.min.springcloud.alibaba.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;

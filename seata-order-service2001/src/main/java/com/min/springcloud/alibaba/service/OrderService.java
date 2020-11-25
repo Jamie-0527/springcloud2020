@@ -15,4 +15,7 @@ public interface OrderService {
     //修改订单状态 0改为1
     void update(@Param("userId") Long userId, @Param("status") Integer status);
 
+    //用雪花算法获取全局唯一ID
+    Long getIDBySnowFlake();
+
 }

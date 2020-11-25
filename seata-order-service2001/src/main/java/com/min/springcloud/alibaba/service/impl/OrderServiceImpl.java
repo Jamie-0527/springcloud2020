@@ -1,11 +1,13 @@
 package com.min.springcloud.alibaba.service.impl;
 
+import com.min.springcloud.alibaba.config.IdGeneratorSnowFlake;
 import com.min.springcloud.alibaba.dao.OrderDao;
 import com.min.springcloud.alibaba.domain.Order;
 import com.min.springcloud.alibaba.service.AccountService;
 import com.min.springcloud.alibaba.service.OrderService;
 import com.min.springcloud.alibaba.service.StorageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +26,9 @@ public class OrderServiceImpl implements OrderService {
     private AccountService accountService;
     @Resource
     private StorageService storageService;
+    //注入工具类，获取全局唯一ID
+    @Autowired
+    private IdGeneratorSnowFlake idGeneratorSnowFlake;
 
     @Override
     public void create(Order order) {
@@ -48,5 +53,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void update(Long userId, Integer status) {
 
+    }
+
+    @Override
+    public Long getIDBySnowFlake() {
+        long sonwflakeId = idGeneratorSnowFlake.sonwflakeId();
+        return sonwflakeId;
     }
 }
